@@ -1,0 +1,566 @@
+import random
+import pygame
+
+#Organism Lists: Red, Orange, Yellow, Green, Blue, Purple
+##11 red, 7 orange, 13 yellow, 12 green, 11 blue, 7 purple
+red_organisms=["red deer", "red flour beetle", "red fox", "red kangaroo", "red maple", "red piranha", "red rock lobster", "red rock shrimp", "red salamander", "red spitting cobra", "red wolf"]
+orange_organisms=["orange burrowing frog", "orange clownfish", "orange leaf-nosed bat", "orange lily", "mandarin orange", "orange mud crab", "orange peel mushroom"]
+yellow_organisms=["yellow anaconda", "yellow baboon", "yellow bass", "yellow golden mole", "yellow ground squirrel", "yellow mongoose", "yellow oriole", "yellow pea", "yellow scorpion", "yellow-bellied sea snake", "yellow sea squirt", "yellow toad", "yellow warbler"]
+green_organisms=["green algae", "green bottle fly", "green heron", "green monkey", "green ringtail possum", "green rock lobster", "green sea turtle", "green sea urchin", "green sturgeon", "green sulfur bacteria", "green toad", "green tree python"]
+blue_organisms=["blue antelope", "blue coral", "blue crab", "blue flounder", "blue jay", "blue coral snake", "blue monkey", "blue mussel", "blue shark", "sky blue mushroom", "blue whale"]
+purple_organisms=["purple finch", "purple frog", "purple magnolia", "purple mud crab", "purple sea urchin", "purple sulfur bacteria", "purple tuskfish"]
+list_of_all_colors=[red_organisms, orange_organisms, yellow_organisms, green_organisms, blue_organisms, purple_organisms]
+
+def calc_divtime(org1,org2):
+    bacteria=["green sulfur bacteria", "purple sulfur bacteria"]
+    photosynthetic_eukaryotes=["green algae", "yellow pea", "purple magnolia", "red maple", "mandarin orange", "orange lily"]
+    fungi=["orange peel mushroom", "sky blue mushroom"]
+    cnidarians=["blue coral"]
+    molluscs=["blue mussel"]
+    arthropods=["orange mud crab", "purple mud crab", "blue crab", "red rock shrimp", "red rock lobster", "green rock lobster", "yellow scorpion", "red flour beetle", "green bottle fly"]                                                                                                                   
+    crabs=["orange mud crab", "purple mud crab", "blue crab"]
+    mud_crabs=["orange mud crab", "purple mud crab"]
+    lobsters=["red rock lobster", "green rock lobster"]
+    crabs_and_lobsters=crabs+lobsters
+    shrimp=["red rock shrimp"]
+    crustaceans=crabs+lobsters+shrimp
+    insects=["red flour beetle", "green bottle fly"]
+    crustacean_insects=crustaceans+insects
+    blue_crab=["blue crab"]
+    scorpions=["yellow scorpion"]
+    tunicates=["yellow sea squirt"]
+    echinoderms=["purple sea urchin", "green sea urchin"]
+    cartilaginous_fish=["blue shark"]
+    bony_fish=["yellow bass", "red piranha", "blue flounder", "green sturgeon", "purple tuskfish", "orange clownfish"]
+    amphibians=["yellow toad", "green toad", "orange burrowing frog", "purple frog", "red salamander"]
+    reptiles_and_birds=["yellow-bellied sea snake", "red spitting cobra", "blue coral snake", "green tree python", "yellow anaconda", "green sea turtle", "yellow warbler","yellow oriole", "purple finch", "blue jay", "green heron"]
+    mammals=["red deer", "red fox", "red wolf", "red kangaroo", "green monkey", "yellow golden mole", "yellow ground squirrel", "yellow mongoose", "blue monkey", "orange leaf-nosed bat", "green ringtail possum", "blue antelope", "blue whale", "yellow baboon"]
+    animals=bony_fish+amphibians+reptiles_and_birds+mammals+cartilaginous_fish+tunicates+echinoderms+arthropods+molluscs+cnidarians
+    bilaterians=bony_fish+amphibians+reptiles_and_birds+mammals+cartilaginous_fish+tunicates+echinoderms+arthropods+molluscs
+    protostomes=arthropods+molluscs
+    deuterostomes=bony_fish+amphibians+reptiles_and_birds+mammals+cartilaginous_fish+tunicates+echinoderms
+    chordates=bony_fish+amphibians+reptiles_and_birds+mammals+cartilaginous_fish+tunicates
+    vertebrates=bony_fish+amphibians+reptiles_and_birds+mammals+cartilaginous_fish
+    tetrapods=amphibians+reptiles_and_birds+mammals
+    amniotes=reptiles_and_birds+mammals
+    placentals=["red deer", "red fox", "red wolf", "green monkey", "yellow golden mole", "yellow ground squirrel", "yellow mongoose", "blue monkey", "orange leaf-nosed bat", "blue antelope", "blue whale", "yellow baboon"]
+    marsupials=["red kangaroo", "green ringtail possum"]
+    plants=["yellow pea", "purple magnolia", "red maple", "mandarin orange", "orange lily"]
+    monocots=["orange lily"]
+    eudicots=["red maple", "mandarin orange", "yellow pea"]
+    peas=["yellow pea"]
+    monocots_and_eudicots=monocots+eudicots
+    sapindales = ["red maple", "mandarin orange"]
+    photosynthetic_but_not_plants=["green algae"]
+    magnoliids=["purple magnolia"]
+    non_photosynthetic_eukaryotes=fungi+animals
+    non_cartilaginous_vertebrates=bony_fish+tetrapods
+    sturgeons=["green sturgeon"]
+    piranhas=["red piranha"]
+    bass_and_tuskfish=["yellow bass", "purple tuskfish"]
+    flounder_and_clownfish=["blue flounder", "orange clownfish"]
+    bass_and_tuskfish_and_flounder_and_clownfish=bass_and_tuskfish+flounder_and_clownfish
+    bass_and_tuskfish_and_flounder_and_clownfish_and_piranha=bass_and_tuskfish+flounder_and_clownfish+piranhas
+    frogs=["orange burrowing frog", "purple frog"]
+    toads=["yellow toad", "green toad"]
+    anurans=frogs+toads
+    salamanders=["red salamander"]
+    birds=["yellow warbler","yellow oriole", "purple finch", "blue jay", "green heron"]
+    warbler_oriole=["yellow warbler","yellow oriole"]
+    warbler_oriole_finch=["yellow warbler","yellow oriole", "purple finch"]
+    warbler_oriole_finch_jay=["yellow warbler","yellow oriole", "purple finch", "blue jay"]
+    herons=["green heron"]
+    finches=["purple finch"]
+    jays=["blue jay"]
+    turtles=["green sea turtle"]
+    birds_and_turtles=birds+turtles
+    snakes=["yellow-bellied sea snake", "red spitting cobra", "blue coral snake", "green tree python", "yellow anaconda"]
+    pythons_and_anacondas=["green tree python", "yellow anaconda"]
+    cobras_and_sea_snakes=["yellow-bellied sea snake", "red spitting cobra"]
+    coral_snakes=["blue coral snake"]
+    cobras_and_sea_snakes_and_coral_snakes=cobras_and_sea_snakes+coral_snakes
+    fox_wolf=["red fox", "red wolf"]
+    mongoose=["yellow mongoose"]
+    carnivores=fox_wolf+mongoose
+    deer_antelope=["red deer", "blue antelope"]
+    whales=["blue whale"]
+    even_toed_ungulates_and_whales=deer_antelope+whales
+    carnivores_even_toed_ungulates_and_whales=carnivores+even_toed_ungulates_and_whales
+    bats=["orange leaf-nosed bat"]
+    two_monkeys=["green monkey", "blue monkey"]
+    baboon=["yellow baboon"]
+    primates=two_monkeys+baboon
+    rodents=["yellow ground squirrel"]
+    primates_and_rodents=primates+rodents
+    moles=["yellow golden mole"]
+    carnivores_even_toed_ungulates_and_whales_and_bats=carnivores_even_toed_ungulates_and_whales+bats
+    carnivores_even_toed_ungulates_and_whales_bats_primates_and_rodents=carnivores_even_toed_ungulates_and_whales_and_bats+primates_and_rodents
+    if org1 in bacteria and org2 in bacteria:
+        divtime=3000
+    elif org1 in bacteria and org2 not in bacteria or org1 not in bacteria and org2 in bacteria:
+        divtime=4250
+    elif org1 in non_photosynthetic_eukaryotes and org2 in photosynthetic_eukaryotes or org2 in non_photosynthetic_eukaryotes and org1 in photosynthetic_eukaryotes:
+        divtime=1530
+    elif org1 in sapindales and org2 in sapindales: 
+        divtime=74
+    elif org1 in sapindales and org2 in peas or org2 in sapindales and org1 in peas:
+        divtime=121
+    elif org1 in eudicots and org2 in monocots or org2 in eudicots and org1 in monocots:
+        divtime=159
+    elif org1 in monocots_and_eudicots and org2 in magnoliids or org2 in monocots_and_eudicots and org1 in magnoliids:
+        divtime=163
+    elif org1 in plants and org2 in photosynthetic_but_not_plants or org2 in plants and org1 in photosynthetic_but_not_plants:
+        divtime=992
+    elif org1 in fungi and org2 in fungi:
+        divtime=642
+    elif org1 in fungi and org2 in animals or org2 in fungi and org1 in animals:
+        divtime=1275
+    elif org1 in cnidarians and org2 in bilaterians or org2 in cnidarians and org1 in bilaterians:
+        divtime=715
+    elif org1 in mud_crabs and org2 in mud_crabs:
+        divtime=45
+    elif org1 in mud_crabs and org2 in blue_crab or org2 in mud_crabs and org1 in blue_crab:
+        divtime=61
+    elif org1 in crabs and org2 in lobsters or org2 in crabs and org1 in lobsters:
+        divtime=330
+    elif org1 in lobsters and org2 in lobsters:
+        divtime=50.5
+    elif org1 in crabs_and_lobsters and org2 in shrimp or org2 in crabs_and_lobsters and org1 in shrimp:
+        divtime=332
+    elif org1 in crustaceans and org2 in insects or org2 in crustaceans and org1 in insects:
+        divtime=515
+    elif org1 in insects and org2 in insects:
+        divtime=333
+    elif org1 in scorpions and org2 in crustacean_insects or org2 in scorpions and org1 in crustacean_insects:
+        divtime=563
+    elif org1 in molluscs and org2 in arthropods or org2 in molluscs and org1 in arthropods:
+        divtime=692
+    elif org1 in deuterostomes and org2 in protostomes or org2 in deuterostomes and org1 in protostomes:
+        divtime=708
+    elif org1 in echinoderms and org2 in echinoderms:
+        divtime=4
+    elif org1 in echinoderms and org2 in chordates or org2 in echinoderms and org1 in chordates:
+        divtime=635
+    elif org1 in tunicates and org2 in vertebrates or org1 in vertebrates and org2 in tunicates:
+        divtime=588
+    elif org1 in cartilaginous_fish and org2 in non_cartilaginous_vertebrates or org2 in cartilaginous_fish and org1 in non_cartilaginous_vertebrates:
+        divtime=462
+    elif org1 in bass_and_tuskfish and org2 in bass_and_tuskfish:
+        divtime=97
+    elif org1 in flounder_and_clownfish and org2 in flounder_and_clownfish:
+        divtime=104
+    elif org1 in bass_and_tuskfish and org2 in flounder_and_clownfish or org2 in bass_and_tuskfish and org1 in flounder_and_clownfish:
+        divtime=112
+    elif org1 in bass_and_tuskfish_and_flounder_and_clownfish and org2 in piranhas or org2 in bass_and_tuskfish_and_flounder_and_clownfish and org1 in piranhas:
+        divtime=224
+    elif org1 in sturgeons and org2 in bass_and_tuskfish_and_flounder_and_clownfish_and_piranha or org2 in sturgeons and org1 in bass_and_tuskfish_and_flounder_and_clownfish_and_piranha:
+        divtime=350
+    elif org1 in tetrapods and org2 in bony_fish or org2 in tetrapods and org1 in bony_fish:
+        divtime=429
+    elif org1 in amphibians and org2 in amniotes or org2 in amphibians and org1 in amniotes:
+        divtime=352
+    elif org1 in anurans and org2 in salamanders or org2 in anurans and org1 in salamanders:
+        divtime=291
+    elif org1 in frogs and org2 in frogs:
+        divtime=134
+    elif org1 in toads and org2 in toads:
+        divtime=31.9
+    elif org1 in frogs and org2 in toads or org2 in frogs and org1 in toads:
+        divtime=149
+    elif org1 in warbler_oriole and org2 in warbler_oriole:
+        divtime=14
+    elif org1 in warbler_oriole and org2 in finches or org2 in warbler_oriole and org1 in finches:
+        divtime=20.2
+    elif org1 in warbler_oriole_finch and org2 in jays or org2 in warbler_oriole_finch and org1 in jays:
+        divtime=31
+    elif org1 in herons and org2 in warbler_oriole_finch_jay or org2 in herons and org1 in warbler_oriole_finch_jay:
+        divtime=75
+    elif org1 in turtles and org2 in birds or org2 in turtles and org1 in birds:
+        divtime=261
+    elif org1 in snakes and org2 in birds_and_turtles or org2 in snakes and org1 in birds_and_turtles:
+        divtime=280
+    elif org1 in pythons_and_anacondas and org2 in pythons_and_anacondas:
+        divtime=78
+    elif org1 in pythons_and_anacondas and org2 in cobras_and_sea_snakes_and_coral_snakes or org2 in pythons_and_anacondas and org1 in cobras_and_sea_snakes_and_coral_snakes:
+        divtime=86
+    elif org1 in cobras_and_sea_snakes and org2 in cobras_and_sea_snakes:
+        divtime=31.8
+    elif org1 in cobras_and_sea_snakes and org2 in coral_snakes or org2 in cobras_and_sea_snakes and org1 in coral_snakes:
+        divtime=34
+    elif org1 in mammals and org2 in reptiles_and_birds or org2 in mammals and org1 in reptiles_and_birds:
+        divtime=319 
+    elif org1 in placentals and org2 in marsupials or org2 in placentals and org1 in marsupials:
+        divtime=160
+    elif org1 in marsupials and org2 in marsupials:
+        divtime=48
+    elif org1 in fox_wolf and org2 in fox_wolf:
+        divtime=12
+    elif org1 in fox_wolf and org2 in mongoose or org2 in fox_wolf and org1 in mongoose:
+        divtime=55
+    elif org1 in deer_antelope and org2 in deer_antelope:
+        divtime=23.7
+    elif org1 in deer_antelope and org2 in whales or org2 in deer_antelope and org1 in whales:
+        divtime=58
+    elif org1 in carnivores and org2 in even_toed_ungulates_and_whales or org2 in carnivores and org1 in even_toed_ungulates_and_whales:
+        divtime=76
+    elif org1 in carnivores_even_toed_ungulates_and_whales and org2 in bats or org2 in carnivores_even_toed_ungulates_and_whales and org1 in bats:
+        divtime=81
+    elif org1 in two_monkeys and org2 in two_monkeys:
+        divtime=6.7
+    elif org1 in two_monkeys and org2 in baboon or org2 in two_monkeys and org1 in baboon:
+        divtime=12.3
+    elif org1 in primates and org2 in rodents or org2 in primates and org1 in rodents:
+        divtime=87
+    elif org1 in primates_and_rodents and org2 in carnivores_even_toed_ungulates_and_whales_and_bats or org2 in primates_and_rodents and org1 in carnivores_even_toed_ungulates_and_whales_and_bats:
+        divtime=94
+    elif org1 in carnivores_even_toed_ungulates_and_whales_bats_primates_and_rodents and org2 in moles or org2 in carnivores_even_toed_ungulates_and_whales_bats_primates_and_rodents and org1 in moles: 
+        divtime=99
+    else:
+        divtime=88888
+    return divtime
+
+def isthistypeD(list_of_six_organisms):
+    divtime_list=[]
+    divtime_list.append(calc_divtime(list_of_six_organisms[0],list_of_six_organisms[1]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[0],list_of_six_organisms[2]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[0],list_of_six_organisms[3]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[0],list_of_six_organisms[4]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[0],list_of_six_organisms[5]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[1],list_of_six_organisms[2]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[1],list_of_six_organisms[3]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[1],list_of_six_organisms[4]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[1],list_of_six_organisms[5]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[2], list_of_six_organisms[3]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[2], list_of_six_organisms[4]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[2], list_of_six_organisms[5]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[3], list_of_six_organisms[4]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[3], list_of_six_organisms[5]))
+    divtime_list.append(calc_divtime(list_of_six_organisms[4], list_of_six_organisms[5]))
+    divtime_list.sort()
+    from collections import Counter
+    frequency_order = Counter(divtime_list).most_common()
+
+
+    five_defining_ratios=[frequency_order[0][1], frequency_order[1][1], frequency_order[2][1], frequency_order[3][1], frequency_order[4][1]]
+    if five_defining_ratios==[5,4,4,1,1]:
+        return True
+    else:
+        return False
+
+list_of_500_D_tree_organism_sets=[]
+while len(list_of_500_D_tree_organism_sets)<500:
+    rainbow_list=[random.choice(red_organisms), random.choice(orange_organisms), random.choice(yellow_organisms), random.choice(green_organisms), random.choice(blue_organisms), random.choice(purple_organisms)]
+    if isthistypeD(rainbow_list) and rainbow_list not in list_of_500_D_tree_organism_sets:
+        list_of_500_D_tree_organism_sets.append(rainbow_list)
+for set in list_of_500_D_tree_organism_sets:
+    random.shuffle(set)
+
+
+master_list=[]
+master_list_of_organisms=[]
+
+
+for set_of_six in list_of_500_D_tree_organism_sets:
+    first_org_div_times=[calc_divtime(set_of_six[0], set_of_six[1]), calc_divtime(set_of_six[0], set_of_six[2]), calc_divtime(set_of_six[0], set_of_six[3]), calc_divtime(set_of_six[0], set_of_six[4]), calc_divtime(set_of_six[0], set_of_six[5])]
+    second_org_div_times=[calc_divtime(set_of_six[1], set_of_six[0]), calc_divtime(set_of_six[1], set_of_six[2]), calc_divtime(set_of_six[1], set_of_six[3]), calc_divtime(set_of_six[1], set_of_six[4]), calc_divtime(set_of_six[1], set_of_six[5])]
+    third_org_div_times=[calc_divtime(set_of_six[2], set_of_six[0]), calc_divtime(set_of_six[2], set_of_six[1]), calc_divtime(set_of_six[2], set_of_six[3]), calc_divtime(set_of_six[2], set_of_six[4]), calc_divtime(set_of_six[2], set_of_six[5])]
+    fourth_org_div_times=[calc_divtime(set_of_six[3], set_of_six[0]), calc_divtime(set_of_six[3], set_of_six[1]), calc_divtime(set_of_six[3], set_of_six[2]), calc_divtime(set_of_six[3], set_of_six[4]), calc_divtime(set_of_six[3], set_of_six[5])]
+    fifth_org_div_times=[calc_divtime(set_of_six[4], set_of_six[0]), calc_divtime(set_of_six[4], set_of_six[1]), calc_divtime(set_of_six[4], set_of_six[2]), calc_divtime(set_of_six[4], set_of_six[3]), calc_divtime(set_of_six[4], set_of_six[5])]
+    sixth_org_div_times=[calc_divtime(set_of_six[5], set_of_six[0]), calc_divtime(set_of_six[5], set_of_six[1]), calc_divtime(set_of_six[5], set_of_six[2]), calc_divtime(set_of_six[5], set_of_six[3]), calc_divtime(set_of_six[5], set_of_six[4])]
+    list_of_six_org_divtimes=[first_org_div_times, second_org_div_times, third_org_div_times, fourth_org_div_times, fifth_org_div_times, sixth_org_div_times]
+    pared_down_list_six_org_div_times=[]
+    for divlist in list_of_six_org_divtimes:
+        new_list=[]
+        for item in divlist:
+            if item not in new_list:
+                new_list.append(item)
+        pared_down_list_six_org_div_times.append(new_list)
+
+    len_divtime_lists=[len(divlist) for divlist in pared_down_list_six_org_div_times]
+    ghij=[]      
+    n=0
+    while n<6:
+        if len_divtime_lists[n]==4:
+            x=set_of_six[n]
+            ghij.append(x)
+        if len_divtime_lists[n]==2:
+            k=set_of_six[n]
+        if len_divtime_lists[n]==1:
+            l=set_of_six[n]
+        n+=1
+    g=ghij[0]
+    ghij.remove(g)
+    relats_to_g=[calc_divtime(org,g) for org in ghij]
+    min_index=relats_to_g.index(min(relats_to_g))
+    h=ghij[min_index]        
+    ghij.remove(h)
+    i=ghij[0]
+    j=ghij[1]
+    gandh_abslen=calc_divtime(g,h)
+    iandjabslen=calc_divtime(i,j)
+    kabslen=calc_divtime(g,k)
+    labslen=calc_divtime(g,l)
+    gh_ijabslen=calc_divtime(g,i)
+    mabslen=gh_ijabslen-gandh_abslen
+    nabslen=kabslen-gh_ijabslen
+    oabslen=gh_ijabslen-iandjabslen
+    pabslen=labslen-kabslen
+    lentransvalue=310/labslen
+    glen=lentransvalue*gandh_abslen        
+    if glen<1.73:
+        glen=1.73
+    hlen=lentransvalue*gandh_abslen        
+    if hlen<1.73:
+        hlen=1.73
+    ilen=lentransvalue*iandjabslen
+    if ilen<1.73:
+        ilen=1.73
+    jlen=lentransvalue*iandjabslen
+    if jlen<1.73:
+        jlen=1.73
+    klen=lentransvalue*kabslen
+    if klen<1.73:
+        klen=1.73
+    llen=lentransvalue*labslen
+    if llen<1.73:
+        llen=1.73
+    mlen=lentransvalue*mabslen
+    if mlen<1.73:
+        mlen=1.73
+    nlen=lentransvalue*nabslen
+    if nlen<1.73:
+        nlen=1.73
+    olen=lentransvalue*oabslen
+    if olen<1.73:
+        olen=1.73
+    plen=lentransvalue*pabslen
+    if plen<1.73:
+        plen=1.73
+    value_list=[g,h,i,j,k,l,glen,hlen,ilen,jlen,klen,llen,mlen,nlen,olen,plen]
+    master_list.append(value_list)
+    master_list_of_organisms.append(value_list[0:6])
+  
+ 
+pygame.init()
+pygame.display.set_caption("Phylogenetic Rainbows")
+pygame.font.init()
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+ORANGE = (255, 165, 0)
+YELLOW1 = (255, 255, 0)
+YELLOW2 = (230, 200, 0)
+GREEN = (0, 128, 0)
+BLUE = (0, 0, 255)
+PURPLE = (128, 0, 128)
+width, height = 640, 480
+screen = pygame.display.set_mode((width, height))
+screen.fill((WHITE))
+order_of_line_colors_list=[]
+order_of_text_colors_list=[]
+for org in master_list_of_organisms[0]:
+    if org in red_organisms:
+        order_of_line_colors_list.append(RED)
+        order_of_text_colors_list.append(RED)
+    elif org in orange_organisms:
+        order_of_line_colors_list.append(ORANGE)  
+        order_of_text_colors_list.append(ORANGE)  
+    elif org in yellow_organisms:
+        order_of_line_colors_list.append(YELLOW1)
+        order_of_text_colors_list.append(YELLOW2)
+    elif org in green_organisms:
+        order_of_line_colors_list.append(GREEN)
+        order_of_text_colors_list.append(GREEN)
+    elif org in blue_organisms:
+        order_of_line_colors_list.append(BLUE)
+        order_of_text_colors_list.append(BLUE)
+    elif org in purple_organisms:
+        order_of_line_colors_list.append(PURPLE)
+        order_of_text_colors_list.append(PURPLE)
+#gline
+pygame.draw.line(screen, (order_of_line_colors_list[0]), ((410-int(master_list[0][6])), 100), (410, 100), 7)
+#hline
+pygame.draw.line(screen, (order_of_line_colors_list[1]), ((410-int(master_list[0][7])), 160), (410, 160), 7)
+#iline
+pygame.draw.line(screen, (order_of_line_colors_list[2]), ((410-int(master_list[0][8])), 220), (410, 220), 7)
+#jline
+pygame.draw.line(screen, (order_of_line_colors_list[3]), ((410-int(master_list[0][9])), 280), (410, 280), 7)
+#kline
+pygame.draw.line(screen, (order_of_line_colors_list[4]), ((410-int(master_list[0][10])), 340), (410, 340), 7)
+#lline
+pygame.draw.line(screen, (order_of_line_colors_list[5]), ((410-int(master_list[0][11])), 400), (410, 400), 7)
+ghcolorset1=(order_of_line_colors_list[0][0]+order_of_line_colors_list[1][0])/2
+ghcolorset2=(order_of_line_colors_list[0][1]+order_of_line_colors_list[1][1])/2
+ghcolorset3=(order_of_line_colors_list[0][2]+order_of_line_colors_list[1][2])/2
+ghcolor=(ghcolorset1,ghcolorset2,ghcolorset3)
+ijcolorset1=(order_of_line_colors_list[2][0]+order_of_line_colors_list[3][0])/2
+ijcolorset2=(order_of_line_colors_list[2][1]+order_of_line_colors_list[3][1])/2
+ijcolorset3=(order_of_line_colors_list[2][2]+order_of_line_colors_list[3][2])/2
+ijcolor=(ijcolorset1,ijcolorset2,ijcolorset3)
+ghijcolorset1=(ghcolorset1+ijcolorset1)/2
+ghijcolorset2=(ghcolorset2+ijcolorset2)/2
+ghijcolorset3=(ghcolorset3+ijcolorset3)/2
+ghijcolor=(ghijcolorset1,ghijcolorset2,ghijcolorset3)
+ghijkcolorset1=(ghijcolorset1+order_of_line_colors_list[4][0])/2
+ghijkcolorset2=(ghijcolorset2+order_of_line_colors_list[4][1])/2
+ghijkcolorset3=(ghijcolorset3+order_of_line_colors_list[4][2])/2
+ghijkcolor=(ghijkcolorset1,ghijkcolorset2,ghijkcolorset3)
+ghijklcolorset1=(ghijkcolorset1+order_of_line_colors_list[5][0])/2
+ghijklcolorset2=(ghijkcolorset2+order_of_line_colors_list[5][1])/2
+ghijklcolorset3=(ghijkcolorset3+order_of_line_colors_list[5][2])/2
+ghijklcolor=(ghijklcolorset1,ghijklcolorset2,ghijklcolorset3)
+#mline
+pygame.draw.line(screen, ghcolor, (410-int(master_list[0][7])-int(master_list[0][12]), 130), (410-int(master_list[0][7]), 130), 7)
+#nline
+pygame.draw.line(screen, ghijcolor, (410-int(master_list[0][7])-int(master_list[0][12]), 190), (410-int(master_list[0][10]), 190), 7)
+#oline
+pygame.draw.line(screen, ijcolor, (410-int(master_list[0][8]), 250), (410-int(master_list[0][8])-int(master_list[0][14]), 250), 7)
+#pline
+pygame.draw.line(screen, ghijkcolor, (100, 265), (410-int(master_list[0][10]), 265), 7)
+#qline
+pygame.draw.line(screen, ghijklcolor, (78, 332.5), (100, 332.5), 7)
+#rline
+pygame.draw.line(screen, ghcolor, ((410-int(master_list[0][6])), 97), (410-int(master_list[0][6]), 163), 3)
+#sline
+pygame.draw.line(screen, ghijcolor, (410-int(master_list[0][7])-int(master_list[0][12]), 127), (410-int(master_list[0][7])-int(master_list[0][12]), 253), 3)
+#tline
+pygame.draw.line(screen, ijcolor, ((410-int(master_list[0][9])), 217), (410-int(master_list[0][9]), 283), 3)
+#uline
+pygame.draw.line(screen, ghijkcolor, ((410-int(master_list[0][10])), 187), (410-int(master_list[0][10]), 343), 3)
+#vline
+pygame.draw.line(screen, ghijklcolor, (100, 262), (100, 403), 3)
+
+p=0
+game_font = pygame.font.SysFont("Arial", 18)
+smaller_game_font=pygame.font.SysFont("Arial", 11)
+textfirst = game_font.render(f"{master_list[0][0]}", True, (order_of_text_colors_list[0]))
+textsecond = game_font.render(f"{master_list[0][1]}", True, (order_of_text_colors_list[1]))
+textthird = game_font.render(f"{master_list[0][2]}", True, (order_of_text_colors_list[2]))
+textfourth = game_font.render(f"{master_list[0][3]}", True, (order_of_text_colors_list[3]))
+textfifth = game_font.render(f"{master_list[0][4]}", True, (order_of_text_colors_list[4]))
+textsixth = game_font.render(f"{master_list[0][5]}", True, (order_of_text_colors_list[5]))
+
+#text6=smaller_game_font.render("www.rachelrodman.com", True, (BLACK)) 
+screen.blit(textfirst, (420, 89))
+screen.blit(textsecond, (420, 149))
+screen.blit(textthird, (420, 209))
+screen.blit(textfourth, (420, 269))
+screen.blit(textfifth, (420, 329))
+screen.blit(textsixth, (420, 389))
+#screen.blit(text6, (50,440))
+print(p)
+pygame.display.flip() 
+
+
+#Draw 499 additional trees
+MAKE_NEW_TREE = pygame.USEREVENT + 1
+pygame.time.set_timer(MAKE_NEW_TREE, 7500, loops=499)
+clock = pygame.time.Clock()
+pygame.display.flip() 
+running = True
+while running:
+    clock = pygame.time.Clock()
+    clock.tick(60)
+    pygame.display.flip() 
+    if p>1999:
+        running=False
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False    
+        if event.type == MAKE_NEW_TREE:
+            p+=1
+            screen.fill((WHITE))  
+            order_of_line_colors_list=[]
+            order_of_text_colors_list=[]
+            for org in master_list[p]:
+                if org in red_organisms:
+                    order_of_line_colors_list.append(RED)
+                    order_of_text_colors_list.append(RED)
+                elif org in orange_organisms:
+                    order_of_line_colors_list.append(ORANGE)  
+                    order_of_text_colors_list.append(ORANGE)  
+                elif org in yellow_organisms:
+                    order_of_line_colors_list.append(YELLOW1)
+                    order_of_text_colors_list.append(YELLOW2)
+                elif org in green_organisms:
+                    order_of_line_colors_list.append(GREEN)
+                    order_of_text_colors_list.append(GREEN)
+                elif org in blue_organisms:
+                    order_of_line_colors_list.append(BLUE)
+                    order_of_text_colors_list.append(BLUE)
+                elif org in purple_organisms:
+                    order_of_line_colors_list.append(PURPLE)
+                    order_of_text_colors_list.append(PURPLE)
+            #gline
+            pygame.draw.line(screen, (order_of_line_colors_list[0]), ((410-int(master_list[p][6])), 100), (410, 100), 7)
+            #hline
+            pygame.draw.line(screen, (order_of_line_colors_list[1]), ((410-int(master_list[p][7])), 160), (410, 160), 7)
+            #iline
+            pygame.draw.line(screen, (order_of_line_colors_list[2]), ((410-int(master_list[p][8])), 220), (410, 220), 7)
+            #jline
+            pygame.draw.line(screen, (order_of_line_colors_list[3]), ((410-int(master_list[p][9])), 280), (410, 280), 7)
+            #kline
+            pygame.draw.line(screen, (order_of_line_colors_list[4]), ((410-int(master_list[p][10])), 340), (410, 340), 7)
+            #lline
+            pygame.draw.line(screen, (order_of_line_colors_list[5]), ((410-int(master_list[p][11])), 400), (410, 400), 7)
+            ghcolorset1=(order_of_line_colors_list[0][0]+order_of_line_colors_list[1][0])/2
+            ghcolorset2=(order_of_line_colors_list[0][1]+order_of_line_colors_list[1][1])/2
+            ghcolorset3=(order_of_line_colors_list[0][2]+order_of_line_colors_list[1][2])/2
+            ghcolor=(ghcolorset1,ghcolorset2,ghcolorset3)
+            ijcolorset1=(order_of_line_colors_list[2][0]+order_of_line_colors_list[3][0])/2
+            ijcolorset2=(order_of_line_colors_list[2][1]+order_of_line_colors_list[3][1])/2
+            ijcolorset3=(order_of_line_colors_list[2][2]+order_of_line_colors_list[3][2])/2
+            ijcolor=(ijcolorset1,ijcolorset2,ijcolorset3)
+            ghijcolorset1=(ghcolorset1+ijcolorset1)/2
+            ghijcolorset2=(ghcolorset2+ijcolorset2)/2
+            ghijcolorset3=(ghcolorset3+ijcolorset3)/2
+            ghijcolor=(ghijcolorset1,ghijcolorset2,ghijcolorset3)
+            ghijkcolorset1=(ghijcolorset1+order_of_line_colors_list[4][0])/2
+            ghijkcolorset2=(ghijcolorset2+order_of_line_colors_list[4][1])/2
+            ghijkcolorset3=(ghijcolorset3+order_of_line_colors_list[4][2])/2
+            ghijkcolor=(ghijkcolorset1,ghijkcolorset2,ghijkcolorset3)
+            ghijklcolorset1=(ghijkcolorset1+order_of_line_colors_list[5][0])/2
+            ghijklcolorset2=(ghijkcolorset2+order_of_line_colors_list[5][1])/2
+            ghijklcolorset3=(ghijkcolorset3+order_of_line_colors_list[5][2])/2
+            ghijklcolor=(ghijklcolorset1,ghijklcolorset2,ghijklcolorset3)
+            #mline
+            pygame.draw.line(screen, ghcolor, (410-int(master_list[p][7])-int(master_list[p][12]), 130), (410-int(master_list[p][7]), 130), 7)
+            #nline
+            pygame.draw.line(screen, ghijcolor, (410-int(master_list[p][7])-int(master_list[p][12]), 190), (410-int(master_list[p][10]), 190), 7)
+            #oline
+            pygame.draw.line(screen, ijcolor, (410-int(master_list[p][8]), 250), (410-int(master_list[p][8])-int(master_list[p][14]), 250), 7)
+            #pline
+            pygame.draw.line(screen, ghijkcolor, (100, 265), (410-int(master_list[p][10]), 265), 7)
+            #qline
+            pygame.draw.line(screen, ghijklcolor, (78, 332.5), (100, 332.5), 7)
+            #rline
+            pygame.draw.line(screen, ghcolor, ((410-int(master_list[p][6])), 97), (410-int(master_list[p][6]), 163), 3)
+            #sline
+            pygame.draw.line(screen, ghijcolor, (410-int(master_list[p][7])-int(master_list[p][12]), 127), (410-int(master_list[p][7])-int(master_list[p][12]), 253), 3)
+            #tline
+            pygame.draw.line(screen, ijcolor, ((410-int(master_list[p][9])), 217), (410-int(master_list[p][9]), 283), 3)
+            #uline
+            pygame.draw.line(screen, ghijkcolor, ((410-int(master_list[p][10])), 187), (410-int(master_list[p][10]), 343), 3)
+            #vline
+            pygame.draw.line(screen, ghijklcolor, (100, 262), (100, 403), 3)
+
+            game_font = pygame.font.SysFont("Arial", 18)
+            smaller_game_font=pygame.font.SysFont("Arial", 11)
+        
+            #text6=smaller_game_font.render("www.rachelrodman.com", True, (BLACK)) 
+            textfirst = game_font.render(f"{master_list[p][0]}", True, (order_of_text_colors_list[0]))
+            textsecond = game_font.render(f"{master_list[p][1]}", True, (order_of_text_colors_list[1]))
+            textthird = game_font.render(f"{master_list[p][2]}", True, (order_of_text_colors_list[2]))
+            textfourth = game_font.render(f"{master_list[p][3]}", True, (order_of_text_colors_list[3]))
+            textfifth = game_font.render(f"{master_list[p][4]}", True, (order_of_text_colors_list[4]))
+            textsixth = game_font.render(f"{master_list[p][5]}", True, (order_of_text_colors_list[5]))
+
+            #screen.blit(text6, (50,440))
+            screen.blit(textfirst, (420, 89))
+            screen.blit(textsecond, (420, 149))
+            screen.blit(textthird, (420, 209))
+            screen.blit(textfourth, (420, 269))
+            screen.blit(textfifth, (420, 329))
+            screen.blit(textsixth, (420, 389))
+            print(p)
+            pygame.display.flip() 
